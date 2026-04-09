@@ -182,6 +182,94 @@ public class DataCenter {
                  System.out.println("2. Logout ");
         
              }
+              // creating admin actions 
+              // adim crrating a user 
+             static void createUser() {
+                 System.out.println("\n CREATE USER ");
+                 System.out.print("New username: ");
+                 String newUsername = scanner.nextLine().trim();
+                 
+              // Preventing duplicates 
+                 if (usernames.contains(newUsername)) {
+                 System.out.println(" Username already exists.");
+                return;
+        }    
+                   System.out.print("PIN (digits only): ");
+                   String newPin = scanner.nextLine().trim();
+
+        if (!newPin.matches("\\d+")) {
+            System.out.println(" PIN must contain digits only.");
+            return;
+        }
+
+        System.out.println("Role:  1=Admin  2=Staff  3=Visitor");
+        int newRole = readInt("Select role: ");
+        if (newRole < 1 || newRole > 3) {
+            System.out.println(" Wrong role.");
+            return;
+        }
+
+        addUser(newUsername, newPin, newRole);
+        System.out.println("User '" + newUsername + "' created at " + createdAt.get(createdAt.size() - 1));
+    }
+              // Viewing orders 
+             
+            static void viewUsers() {
+        System.out.println("\n── ALL USERS ──");
+        System.out.printf("%-4s %-15s %-8s %-10s %-8s %s%n",
+                "#", "Username", "PIN", "Role", "Locked", "Created At");
+        System.out.println("─".repeat(70));
+        for (int i = 0; i < usernames.size(); i++) {
+            String roleName = switch (roles.get(i)) {
+                case 1 -> "Admin";
+                case 2 -> "Staff";
+                default -> "Visitor";
+            };
+            System.out.printf("%-4d %-15s %-8s %-10s %-8s %s%n",
+                    i + 1,
+                    usernames.get(i),
+                    pins.get(i),
+                    roleName,
+                    lockedOut.get(i) ? "YES" : "No",
+                    createdAt.get(i));
+        }
+    }
+            //  Viewing log in logs 
+            
+            static void viewLoginLogs() {
+        System.out.println("\n  LOGIN LOGS ");
+        for (int i = 0; i < usernames.size(); i++) {
+            System.out.println("\n" + usernames.get(i) + ":");
+            ArrayList<String> logs = loginLogs.get(i);
+            if (logs.isEmpty()) {
+                System.out.println("  (no login activity)");
+            } else {
+                for (String entry : logs) {
+                    System.out.println("  • " + entry);
+                }
+            }
+        }
+    }
+            // Unlocking a user 
+            
+             static void unlockUser() {
+        System.out.println("\n UNLOCK USER ");
+        System.out.print("Enter username to unlock: ");
+        String target = scanner.nextLine().trim();
+        int idx = usernames.indexOf(target);
+
+        if (idx == -1) {
+            System.out.println("User not found.");
+        } else if (!lockedOut.get(idx)) {
+            System.out.println("User '" + target + "' is not locked.");
+        } else {
+            lockedOut.set(idx, false);
+            failedAttempts.set(idx, 0);
+            System.out.println(" User '" + target + "' has been unlocked.");
+        }
+    }
+             
+}
               
             
                 
