@@ -29,13 +29,14 @@ public class DataCenter {
      // creation of the main  method 
     
      public static void main(String[] args) {
-    
+     seedUsers();
      
      System.out.println( " DATA CENTER SECURITY SYSTEM ");
      
      // CREATING A WHILE LOOP TO PREVENT ANY OTHER USERS FROM CREATING USERS 
      
      while (true) {
+        showMainMenu();
         
          int choice = readInt("Enter choice");
          
@@ -51,6 +52,23 @@ public class DataCenter {
              
          }
      }
+     // Seeding users 
+     static void seedUsers() {
+        addUser("admin","1234", 1);
+        addUser("alice","5678", 2);
+        addUser("visitor","0000", 3);
+    }
+     // adding main menu
+     static void showMainMenu() {
+         System.out.println("               ");
+         System.out.println( " Main Menu " );
+         System.out.println("               ");
+         System.out.println("1. Login ");
+         System.out.println("2. Create User");
+         System.out.println("3. View Users");
+         System.out.println("4. Exit ");
+       
+     }
      }
     
-}
+
