@@ -69,6 +69,57 @@ public class DataCenter {
          System.out.println("4. Exit ");
        
      }
-     }
+     // the log in process 
+     static void handleLogin() {
+        System.out.println("\n── LOGIN ──");
+        System.out.print("Username: ");
+        String username = scanner.nextLine().trim();
+        
+        int idx = usernames.indexOf(username);
+        
+         if (idx == -1) {
+            System.out.println("User not found.");
+            return;
+        }
+         if (lockedOut.get(idx)) {
+            System.out.println("Account locked. Please wait " + LOCKOUT_MINUTES + " minutes or ask an Admin to unlock.");
+            return;
+        }
+         System.out.print("PIN: ");
+        String pin = scanner.nextLine().trim();
+
+        String timestamp = LocalDateTime.now().format(dtf);
+        loginLogs.get(idx).add(timestamp + " – attempt");
+        
+        if (pin.equals(pins.get(idx))) {
+            failedAttempts.set(idx, 0);
+            loginLogs.get(idx).add(timestamp + " – SUCCESS");
+            System.out.println(" Login successful! Welcome, " + username + ".");
+            showUserMenu(idx);
+        } else {
+             int attempts = failedAttempts.get(idx) + 1;
+            failedAttempts.set(idx, attempts);
+            loginLogs.get(idx).add(timestamp + " – FAILED (" + attempts + "/" + Max_Attempt + ")");
+                if (attempts >= Max_Attempt) {
+                // Admins cannot be auto-locked — this protects the system
+                if (roles.get(idx) == 1) {
+                    System.out.println("Incorrect PIN. Admin accounts cannot be locked to protect system access.");
+                    System.out.println("   Attempts reset. Please try again.");
+                    failedAttempts.set(idx, 0);
+                } else {
+                     lockedOut.set(idx, true);
+                    System.out.println("System Locked. Too many failed attempts for user: " + username);
+                    System.out.println("   Account will auto-unlock after " + LOCKOUT_MINUTES + " minutes.");
+                    startUnlockTimer(idx);
+                }
+            } else {
+                System.out.println("Incorrect PIN. " + (Max_Attempt - attempts) + " attempt(s) remaining.");
+            }
+        }
+    }
+                }
+        
+     
+
     
 
