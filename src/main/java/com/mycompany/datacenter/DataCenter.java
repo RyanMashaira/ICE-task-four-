@@ -26,6 +26,31 @@ public class DataCenter {
     
     static Scanner scanner = new Scanner(System.in); // creation of a scanner to accept the data 
     static DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+     // creation of the main  method 
     
+     public static void main(String[] args) {
+    
+     
+     System.out.println( " DATA CENTER SECURITY SYSTEM ");
+     
+     // CREATING A WHILE LOOP TO PREVENT ANY OTHER USERS FROM CREATING USERS 
+     
+     while (true) {
+        
+         int choice = readInt("Enter choice");
+         
+         switch ( choice){
+              case 1 -> handleLogin();
+                case 2 -> System.out.println("Only logged-in Admins can create users.");
+                case 3 -> System.out.println("Only logged-in Admins can view users.");
+                case 4 -> {
+                    System.out.println("Goodbye. Stay secure.");
+                    System.exit(0);
+                }
+                default -> System.out.println("Invalid option. Try again.");
+             
+         }
+     }
+     }
     
 }
