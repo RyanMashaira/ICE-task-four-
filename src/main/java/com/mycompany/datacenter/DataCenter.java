@@ -156,8 +156,35 @@ public class DataCenter {
             }
         }
         
+             static void showAdminMenu() {
+                 System.out.println("ADMIN MENU ");
+                 System.out.println("├──────────────────────────┤");
+                 System.out.println("1. Create User ");
+                 System.out.println("2. View All Users ");
+                 System.out.println("3. View Login Logs ");
+                 System.out.println("4. Unlock a User ");
+                 System.out.println("5. Logout");
+                 
+                 }
+             static void showStaffMenu() {
+                 System.out.println("│       STAFF MENU ");
+                 System.out.println("├──────────────────────────┤");
+                 System.out.println("1. Access Resources ");
+                 System.out.println("2. Logout ");
+        
+             }
+             
+
+              static void showVisitorMenu() {
+                 System.out.println("     VISITOR MENU ");
+                 System.out.println("├──────────────────────────┤");
+                 System.out.println("1. View Public Info ");
+                 System.out.println("2. Logout ");
+        
+             }
+              
             
-                }}
+                
         
      
 
