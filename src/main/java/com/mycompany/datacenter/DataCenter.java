@@ -268,7 +268,43 @@ public class DataCenter {
             System.out.println(" User '" + target + "' has been unlocked.");
         }
     }
+             // timed locking sysytem creation 
              
+              static void startUnlockTimer(int idx) {
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                lockedOut.set(idx, false);
+                failedAttempts.set(idx, 0);
+                System.out.println("\n User '" + usernames.get(idx) + "' has been automatically unlocked after " + LOCKOUT_MINUTES + " minutes.");
+                timer.cancel();
+            }
+        }, (long) LOCKOUT_MINUTES * 60 * 1000);
+    }
+              // adding a user to the lists 
+              
+              static void addUser(String username, String pin, int role) {
+        usernames.add(username);
+        pins.add(pin);
+        roles.add(role);
+        createdAt.add(LocalDateTime.now().format(dtf));
+        failedAttempts.add(0);
+        lockedOut.add(false);
+        loginLogs.add(new ArrayList<>());
+    }
+              // safe integer input 
+              
+              static int readInt(String prompt) {
+        while (true) {
+            System.out.print(prompt);
+            try {
+                return Integer.parseInt(scanner.nextLine().trim());
+            } catch (NumberFormatException e) {
+                System.out.println("Please enter a valid number.");
+            }
+        }
+    }
 }
               
             
