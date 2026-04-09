@@ -52,10 +52,8 @@ public class DataCenter {
                     default : System.out.println("Invalid option. Try again."); break ;
                 }
                 }
-                
-             
-         }
-     }
+                }
+    
      // Seeding users 
      static void seedUsers() {
         addUser("admin","1234", 1);
@@ -282,7 +280,7 @@ public class DataCenter {
             public void run() {
                 lockedOut.set(idx, false);
                 failedAttempts.set(idx, 0);
-                System.out.println("\n User '" + usernames.get(idx) + "' has been automatically unlocked after " + LOCKOUT_MINUTES + " minutes.");
+                System.out.println("\n User '" + usernames.get(idx) + "' has been automatically unlocked after " + Lockout_Minutes + " minutes.");
                 timer.cancel();
             }
         }, (long) Lockout_Minutes * 60 * 1000);
@@ -310,6 +308,7 @@ public class DataCenter {
             }
         }
     }
+}
 
               
             
