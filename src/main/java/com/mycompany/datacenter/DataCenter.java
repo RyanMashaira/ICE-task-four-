@@ -117,7 +117,47 @@ public class DataCenter {
             }
         }
     }
+        // user menu creation 
+     static void showUserMenu(int idx) {
+        int role = roles.get(idx);
+        boolean running = true;
+        
+        while (running) {
+            System.out.println();
+            switch (role) {
+                case 1 -> showAdminMenu();
+                case 2 -> showStaffMenu();
+                case 3 -> showVisitorMenu();
+            }
+
+            int choice = readInt("Enter choice: ");
+            // Admin menu
+             if (role == 1) { 
+                switch (choice) {
+                    case 1 -> createUser();
+                    case 2 -> viewUsers();
+                    case 3 -> viewLoginLogs();
+                    case 4 -> unlockUser();
+                    case 5 -> { System.out.println("Logged out."); running = false; }
+                    default -> System.out.println("Invalid option.");
+                } // Staff menu
+                 } else if (role == 2) { 
+                switch (choice) {
+                    case 1 -> System.out.println(" Opening  staff files ");
+                    case 2 -> { System.out.println("Logged out."); running = false; }
+                    default -> System.out.println("Invalid option.");
+                } 
+                // visitor menu 
+                switch (choice) {
+                    case 1 -> System.out.println(" Opening public files ");
+                    case 2 -> { System.out.println("Logged out."); running = false; }
+                    default -> System.out.println("Invalid option.");
                 }
+            }
+        }
+        
+            
+                }}
         
      
 
