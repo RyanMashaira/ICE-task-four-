@@ -10,6 +10,8 @@ import java.util.Scanner;
 
 public class DataCenter {
     
+    
+    static final int Lockout_Minutes = 3 ;
     // creating the user list array list 
     static ArrayList<String> usernames = new ArrayList<>();
     static ArrayList<String> pins = new ArrayList<>();
@@ -22,7 +24,6 @@ public class DataCenter {
     static ArrayList<Integer> failedAttempts  = new ArrayList<>();
     
     static final int Max_Attempt = 3; // setting a static or contast number of tries for the users 
-    static ArrayList<Integer> failedAttempts  = new ArrayList<>();
     
     static Scanner scanner = new Scanner(System.in); // creation of a scanner to accept the data 
     static DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -41,14 +42,17 @@ public class DataCenter {
          int choice = readInt("Enter choice");
          
          switch ( choice){
-              case 1 -> handleLogin();
-                case 2 -> System.out.println("Only logged-in Admins can create users.");
-                case 3 -> System.out.println("Only logged-in Admins can view users.");
-                case 4 -> {
+              case 1 : handleLogin(); break ;
+                case 2:System.out.println("Only logged-in Admins can create users.");break;
+                case 3:System.out.println("Only logged-in Admins can view users.");break;
+                case 4:
                     System.out.println("Goodbye. Stay secure.");
                     System.exit(0);
+                    break;
+                    default : System.out.println("Invalid option. Try again."); break ;
                 }
-                default -> System.out.println("Invalid option. Try again.");
+                }
+                
              
          }
      }
@@ -82,7 +86,7 @@ public class DataCenter {
             return;
         }
          if (lockedOut.get(idx)) {
-            System.out.println("Account locked. Please wait " + LOCKOUT_MINUTES + " minutes or ask an Admin to unlock.");
+            System.out.println("Account locked. Please wait " + Lockout_Minutes + " minutes or ask an Admin to unlock.");
             return;
         }
          System.out.print("PIN: ");
@@ -109,7 +113,7 @@ public class DataCenter {
                 } else {
                      lockedOut.set(idx, true);
                     System.out.println("System Locked. Too many failed attempts for user: " + username);
-                    System.out.println("   Account will auto-unlock after " + LOCKOUT_MINUTES + " minutes.");
+                    System.out.println("   Account will auto-unlock after " + Lockout_Minutes + " minutes.");
                     startUnlockTimer(idx);
                 }
             } else {
@@ -125,37 +129,37 @@ public class DataCenter {
         while (running) {
             System.out.println();
             switch (role) {
-                case 1 -> showAdminMenu();
-                case 2 -> showStaffMenu();
-                case 3 -> showVisitorMenu();
+                case 1:showAdminMenu();break;
+                case 2:showStaffMenu();break;
+                case 3:showVisitorMenu();break;
             }
 
             int choice = readInt("Enter choice: ");
             // Admin menu
              if (role == 1) { 
                 switch (choice) {
-                    case 1 -> createUser();
-                    case 2 -> viewUsers();
-                    case 3 -> viewLoginLogs();
-                    case 4 -> unlockUser();
-                    case 5 -> { System.out.println("Logged out."); running = false; }
-                    default -> System.out.println("Invalid option.");
+                    case 1:createUser();break;
+                    case 2: viewUsers();break;
+                    case 3:viewLoginLogs();break;
+                    case 4:unlockUser();break;
+                    case 5:System.out.println("Logged out."); running = false;break;
+                    default: System.out.println("Invalid option.");
                 } // Staff menu
                  } else if (role == 2) { 
                 switch (choice) {
-                    case 1 -> System.out.println(" Opening  staff files ");
-                    case 2 -> { System.out.println("Logged out."); running = false; }
-                    default -> System.out.println("Invalid option.");
+                    case 1:System.out.println(" Opening  staff files ");break;
+                    case 2:System.out.println("Logged out."); running = false;break;
+                    default:System.out.println("Invalid option.");
                 } 
                 // visitor menu 
                 switch (choice) {
-                    case 1 -> System.out.println(" Opening public files ");
-                    case 2 -> { System.out.println("Logged out."); running = false; }
-                    default -> System.out.println("Invalid option.");
+                    case 1:System.out.println(" Opening public files ");break;
+                    case 2:System.out.println("Logged out."); running = false;break;
+                    default:System.out.println("Invalid option.");
                 }
             }
         }
-        
+     }
              static void showAdminMenu() {
                  System.out.println("ADMIN MENU ");
                  System.out.println("├──────────────────────────┤");
@@ -220,10 +224,11 @@ public class DataCenter {
                 "#", "Username", "PIN", "Role", "Locked", "Created At");
         System.out.println("─".repeat(70));
         for (int i = 0; i < usernames.size(); i++) {
-            String roleName = switch (roles.get(i)) {
-                case 1 -> "Admin";
-                case 2 -> "Staff";
-                default -> "Visitor";
+            String roleName;
+            switch(roles.get(i)) {
+                case 1 : roleName = "Admin"; break ;
+                case 2 : roleName = "Staff"; break;
+                default : roleName = "Visitor";break ; 
             };
             System.out.printf("%-4d %-15s %-8s %-10s %-8s %s%n",
                     i + 1,
@@ -280,7 +285,7 @@ public class DataCenter {
                 System.out.println("\n User '" + usernames.get(idx) + "' has been automatically unlocked after " + LOCKOUT_MINUTES + " minutes.");
                 timer.cancel();
             }
-        }, (long) LOCKOUT_MINUTES * 60 * 1000);
+        }, (long) Lockout_Minutes * 60 * 1000);
     }
               // adding a user to the lists 
               
@@ -305,7 +310,7 @@ public class DataCenter {
             }
         }
     }
-}
+
               
             
                 
