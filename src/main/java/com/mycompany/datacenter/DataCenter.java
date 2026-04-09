@@ -1,4 +1,3 @@
-// imports declaration 
 package com.mycompany.datacenter;
 // imports declaration 
 import java.util.ArrayList;
